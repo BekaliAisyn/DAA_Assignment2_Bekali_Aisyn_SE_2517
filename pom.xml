@@ -17,7 +17,6 @@
   </properties>
 
   <dependencies>
-    <!-- Bonus A only (MemoryFootprint). The data structures themselves use no library. -->
     <dependency>
       <groupId>org.openjdk.jol</groupId>
       <artifactId>jol-core</artifactId>
@@ -43,7 +42,6 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.2.0</version>
         <configuration>
-          <!-- `mvn exec:java` runs the main benchmark; override with -Dexec.mainClass=... -->
           <mainClass>daa.benchmark.Benchmark</mainClass>
         </configuration>
       </plugin>
