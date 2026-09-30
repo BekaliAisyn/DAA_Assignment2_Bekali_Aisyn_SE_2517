@@ -1,12 +1,7 @@
 package daa.structures;
 
-/**
- * Growable array of {@code int}, written from scratch on top of a plain {@code int[]}.
- * The capacity is doubled when the array is full, so {@link #add(int)} is amortized O(1).
- *
- * <p>Shifting is done with explicit loops (not {@code System.arraycopy}) so that every
- * shifted element is really counted as one step and one move.
- */
+import daa.metrics.Counters;
+
 public final class DynamicArray implements IntList {
     private static final int DEFAULT_CAPACITY = 8;
     private static final int MAX_CAPACITY = Integer.MAX_VALUE - 8;
@@ -26,15 +21,13 @@ public final class DynamicArray implements IntList {
         data = new int[initialCapacity];
     }
 
-    /** Amortized O(1): a resize costs O(n) but happens only after n/2 cheap appends. */
     @Override
     public void add(int x) {
         growIfFull();
         data[size++] = x;
-        counters.addMoves(1); // the new element is written into its cell
+        counters.addMoves(1);
     }
 
-    /** O(n - index) shifts. */
     @Override
     public void add(int index, int x) {
         if (index < 0 || index > size) {
@@ -52,7 +45,6 @@ public final class DynamicArray implements IntList {
         counters.addMoves(shifted + 1);
     }
 
-    /** O(size - index) shifts. */
     @Override
     public int remove(int index) {
         checkIndex(index);
@@ -63,12 +55,11 @@ public final class DynamicArray implements IntList {
             shifted++;
         }
         size--;
-        counters.addSteps(1L + shifted); // read of the removed cell + one read per shift
+        counters.addSteps(1L + shifted);
         counters.addMoves(shifted);
         return removed;
     }
 
-    /** O(1): direct index arithmetic. */
     @Override
     public int get(int index) {
         checkIndex(index);
@@ -76,7 +67,6 @@ public final class DynamicArray implements IntList {
         return data[index];
     }
 
-    /** Linear search: O(1) best case, O(n) average and worst case. */
     @Override
     public boolean contains(int x) {
         int visited = 0;

@@ -7,7 +7,6 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 
 class MinHeapTest {
-
     @Test
     void emptyHeapThrowsIllegalState() {
         MinHeap heap = new MinHeap();
@@ -165,6 +164,6 @@ class MinHeapTest {
         heap.counters().reset();
         heap.insert(1000);
         assertEquals(1, heap.counters().comparisons());
-        assertEquals(1, heap.counters().moves()); // only the write, no swap
+        assertEquals(1, heap.counters().moves());
     }
 }

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class MyLinkedListTest extends IntListContractTest {
-
     @Override
     IntList create() {
         return new MyLinkedList();
@@ -47,7 +46,7 @@ class MyLinkedListTest extends IntListContractTest {
         list.add(2);
         list.add(3);
         assertEquals(3, list.remove(2));
-        list.add(4); // must be linked after 2, not after the removed node
+        list.add(4);
         assertEquals(3, list.size());
         assertEquals(4, list.get(2));
         assertEquals(2, list.get(1));
