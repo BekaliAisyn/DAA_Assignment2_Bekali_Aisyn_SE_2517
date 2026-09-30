@@ -10,13 +10,6 @@ import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.Random;
 
-/**
- * Bonus B: Floyd's bottom-up {@code buildHeap} (O(n)) versus n separate {@code insert} calls
- * (O(n log n) worst case). Two inputs: random (average case) and strictly descending
- * (worst case for insert: every new key bubbles up to the root).
- *
- * <p>Output: results/buildheap.csv.
- */
 public final class HeapBuildExperiment {
     private static final int[] SIZES = {100, 1_000, 10_000, 100_000, 1_000_000};
 

@@ -1,12 +1,8 @@
 package daa.structures;
 
-/**
- * Singly linked list of {@code int}, written from scratch (no java.util.LinkedList).
- * A {@code tail} pointer makes {@link #add(int)} O(1); everything indexed is O(index)
- * because a singly linked list can only be walked forward from the head.
- */
-public final class MyLinkedList implements IntList {
+import daa.metrics.Counters;
 
+public final class MyLinkedList implements IntList {
     private static final class Node {
         int value;
         Node next;
@@ -21,7 +17,6 @@ public final class MyLinkedList implements IntList {
     private int size;
     private final Counters counters = new Counters();
 
-    /** O(1) thanks to the tail pointer. Two pointer writes. */
     @Override
     public void add(int x) {
         Node node = new Node(x);
@@ -35,7 +30,6 @@ public final class MyLinkedList implements IntList {
         counters.addMoves(2);
     }
 
-    /** O(1) at the head and at the end, O(index) in between (walk to the predecessor). */
     @Override
     public void add(int index, int x) {
         if (index < 0 || index > size) {
@@ -60,11 +54,10 @@ public final class MyLinkedList implements IntList {
         node.next = pred.next;
         pred.next = node;
         size++;
-        counters.addSteps(index); // nodes 0..index-1 were visited
+        counters.addSteps(index);
         counters.addMoves(2);
     }
 
-    /** O(1) at the head, O(index) otherwise (the predecessor must be found first). */
     @Override
     public int remove(int index) {
         checkIndex(index);
@@ -95,12 +88,11 @@ public final class MyLinkedList implements IntList {
             moves++;
         }
         size--;
-        counters.addSteps(index + 1L); // index predecessors visited + the target itself
+        counters.addSteps(index + 1L);
         counters.addMoves(moves);
         return removed;
     }
 
-    /** O(index): pointer chasing from the head. */
     @Override
     public int get(int index) {
         checkIndex(index);

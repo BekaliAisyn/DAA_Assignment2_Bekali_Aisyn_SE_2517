@@ -1,13 +1,7 @@
 package daa.structures;
 
-/**
- * Array-based binary min-heap of {@code int} (no java.util.PriorityQueue).
- * Layout: children of {@code i} are {@code 2i+1} and {@code 2i+2}, parent is {@code (i-1)/2}.
- * Heap property: {@code a[parent] <= a[child]} for every non-root index.
- *
- * <p>Counting: every comparison of two cells counts 1 comparison and 2 steps (two reads);
- * a swap counts 2 moves.
- */
+import daa.metrics.Counters;
+
 public final class MinHeap {
     private static final int DEFAULT_CAPACITY = 8;
 
@@ -26,10 +20,6 @@ public final class MinHeap {
         a = new int[initialCapacity];
     }
 
-    /**
-     * Bonus B: Floyd's bottom-up construction in O(n). Sifts down every internal node,
-     * from the last one ({@code n/2 - 1}) to the root.
-     */
     public static MinHeap buildHeap(int[] values) {
         MinHeap heap = new MinHeap(Math.max(values.length, 1));
         for (int i = 0; i < values.length; i++) {
@@ -44,7 +34,6 @@ public final class MinHeap {
         return heap;
     }
 
-    /** O(log n) worst case, O(1) on average for random keys; O(n) on the rare resize. */
     public void insert(int x) {
         if (size == a.length) {
             grow();
@@ -55,7 +44,6 @@ public final class MinHeap {
         size++;
     }
 
-    /** O(1). */
     public int peekMin() {
         if (size == 0) {
             throw new IllegalStateException("heap is empty");
@@ -64,7 +52,6 @@ public final class MinHeap {
         return a[0];
     }
 
-    /** O(log n): the last element replaces the root and is bubbled down. */
     public int extractMin() {
         if (size == 0) {
             throw new IllegalStateException("heap is empty");
@@ -93,7 +80,6 @@ public final class MinHeap {
         return counters;
     }
 
-    /** Verifies a[parent] <= a[child] for every non-root index (not counted). */
     public boolean isHeap() {
         for (int child = 1; child < size; child++) {
             if (a[(child - 1) / 2] > a[child]) {
@@ -103,7 +89,6 @@ public final class MinHeap {
         return true;
     }
 
-    /** Bubble-up (loop invariant proved in REPORT.md is for siftDown below). */
     private void siftUp(int i) {
         long comparisons = 0;
         long swaps = 0;
@@ -122,20 +107,13 @@ public final class MinHeap {
         counters.addMoves(2 * swaps);
     }
 
-    /**
-     * Bubble-down of the element at index {@code i}.
-     *
-     * <p>Loop invariant: at the start of each iteration, the heap property holds for every
-     * pair (parent, child) in the array except possibly the pairs (i, left(i)) and
-     * (i, right(i)); additionally, a[parent(i)] <= a[left(i)] and a[right(i)] (if those exist).
-     */
     private void siftDown(int i) {
         long comparisons = 0;
         long swaps = 0;
         while (true) {
             int left = 2 * i + 1;
             if (left >= size) {
-                break; // i is a leaf
+                break;
             }
             int smallest = left;
             int right = left + 1;

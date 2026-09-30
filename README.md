@@ -1,49 +1,57 @@
-# DAA Assignment 2 - Data Structures (DynamicArray, MyLinkedList, MinHeap)
+# DAA Assignment 2 - Data Structures
 
-Three data structures written from scratch (`int`/`int[]` only, no `java.util` collections),
-loop-invariant proofs, four benchmark workloads with honest counters, JUnit 5 tests and a report.
+In this project I implemented DynamicArray, MyLinkedList and MinHeap from scratch (only `int` and `int[]`, no java.util collections).
+I also made a benchmark with 4 workloads, JUnit tests, plots and a report.
 
-- GitHub repository: _<add your link here>_ (branch `main`, tag `v1.0`)
-- Report: [REPORT.md](REPORT.md) - complexity table, proofs, plots, discussion, bonus A and B
+- GitHub link: _put your link here_ (branch `main`, tag `v1.0`)
+- Report: `REPORT.md` (there is also `REPORT.pdf`)
 
-## Requirements
-JDK 17+ (tested with 21), Maven 3.8+, Python 3 with `pandas` and `matplotlib` (plots only).
+## What you need
+- JDK 17 or newer
+- Maven
+- Python 3 with pandas and matplotlib (only for the plots)
 
-## Build, test, benchmark - one command
-```bash
-./scripts/run_all.sh
-```
-which is the same as:
-```bash
-mvn test                                                         # 42 JUnit 5 tests
-mvn compile exec:java                                            # -> results/results.csv
-mvn exec:java -Dexec.mainClass=daa.benchmark.HeapBuildExperiment # -> results/buildheap.csv (bonus B)
-mvn exec:java -Dexec.mainClass=daa.benchmark.MemoryFootprint     # -> results/memory.csv, jol_layouts.txt (bonus A)
-python3 scripts/plot.py                                          # -> results/plots/*.png
-```
-The benchmark takes about 1.5 minutes (time-based JIT warm-up). Without Maven:
-`./scripts/run_without_maven.sh [junit-console-standalone.jar] [jol-core.jar]`.
+## How to build, test and run
+Everything with one command:
 
-## Layout
-```
-src/main/java/daa/structures/   IntList, Counters, DynamicArray, MyLinkedList, MinHeap
-src/main/java/daa/benchmark/    Benchmark (W1-W4), HeapBuildExperiment (bonus B), MemoryFootprint (bonus A)
-src/test/java/daa/structures/   JUnit 5 tests (shared contract test for both lists + heap tests)
-results/results.csv             workload,variant,structure,n,time_ms,steps,moves,comparisons
-results/plots/                  PNG charts (time vs n, steps/moves/comparisons vs n, bonus)
-scripts/                        run_all.sh, run_without_maven.sh, plot.py
-```
+    ./scripts/run_all.sh
 
-## Counters (same rules for every structure)
-- **steps**: one array-cell read or one list-node dereference (a heap comparison = 2 steps)
-- **moves**: one element written to another cell (shift, resize copy, append, swap = 2) or one pointer assignment
-- **comparisons**: one comparison between two elements
+Or step by step:
 
-## Methodology
-Every workload starts from `new Random(42)`. Setup (filling, generating queries) is not timed or counted.
-Whole-suite pre-warm, then >= 3 executions and >= 300 ms of warm-up per configuration, then the **median of 5 runs**.
-Counters are deterministic and checked for equality across the 5 runs.
+    mvn test
+    mvn compile exec:java
+    mvn exec:java -Dexec.mainClass=daa.benchmark.HeapBuildExperiment
+    mvn exec:java -Dexec.mainClass=daa.benchmark.MemoryFootprint
+    python3 scripts/plot.py
 
-## Git workflow
-`main` holds working code only (tag `v1.0`); development happened on `feature/array`, `feature/list`,
-`feature/heap`, `feature/metrics`, merged with `--no-ff`.
+- `mvn test` runs the 42 JUnit 5 tests.
+- `mvn compile exec:java` runs the main benchmark and writes `results/results.csv`. It takes about 1-2 minutes.
+- HeapBuildExperiment is bonus B (`results/buildheap.csv`).
+- MemoryFootprint is bonus A (`results/memory.csv`, needs JOL, Maven downloads it).
+- `plot.py` makes the PNG charts in `results/plots/`.
+
+If you don't have Maven you can use `scripts/run_without_maven.sh`.
+
+## Folders
+- `src/main/java/daa/structures` - IntList, DynamicArray, MyLinkedList, MinHeap
+- `src/main/java/daa/metrics` - Counters
+- `src/main/java/daa/benchmark` - Benchmark (W1-W4), HeapBuildExperiment, MemoryFootprint
+- `src/test/java/daa/structures` - JUnit tests
+- `results/` - results.csv, other csv files and the plots
+- `scripts/` - run scripts and plot.py
+
+## What the counters mean
+- steps: one read of an array cell, or one visit of a list node (one heap comparison = 2 reads)
+- moves: one element written into another cell (shift, copy when the array grows, append, swap = 2) or one pointer change in the list
+- comparisons: one comparison between two elements
+
+The counters are counted inside the code while it runs. I did not estimate them afterwards.
+
+## How the benchmark works
+- Every workload uses `new Random(42)`, so both structures get the same data.
+- Filling the structure before the test is not timed and not counted.
+- There is a warm-up first (results thrown away), then 5 runs, and I save the median time.
+- The CSV columns are: workload, variant, structure, n, time_ms, steps, moves, comparisons. The variant is head or middle for W3 and `-` for the others.
+
+## Git
+`main` has only working code and the tag `v1.0`. I worked on the branches `feature/array`, `feature/list`, `feature/heap` and `feature/metrics` and merged them into main.

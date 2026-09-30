@@ -16,12 +16,6 @@ import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.info.GraphLayout;
 import org.openjdk.jol.vm.VM;
 
-/**
- * Bonus A: measures the real heap footprint of each structure with JOL
- * (Java Object Layout, org.openjdk.jol:jol-core).
- *
- * <p>Output: results/memory.csv and results/jol_layouts.txt (object headers, padding, alignment).
- */
 public final class MemoryFootprint {
     private static final int[] SIZES = {100, 1_000, 10_000, 100_000};
 
@@ -65,7 +59,7 @@ public final class MemoryFootprint {
     }
 
     private static void row(PrintWriter csv, String name, int n, long total) {
-        long payload = 4L * n; // n ints, nothing else
+        long payload = 4L * n;
         csv.printf(Locale.ROOT, "%s,%d,%d,%.2f,%d,%.2f%n", name, n, total, (double) total / n,
                 payload, (double) total / payload);
     }

@@ -8,12 +8,7 @@ import java.util.List;
 import java.util.Random;
 import org.junit.jupiter.api.Test;
 
-/**
- * Behaviour that both list implementations must share. java.util collections are used here
- * as the reference model (allowed in tests only).
- */
 abstract class IntListContractTest {
-
     abstract IntList create();
 
     @Test
@@ -36,7 +31,7 @@ abstract class IntListContractTest {
         assertTrue(list.contains(7));
         assertEquals(7, list.remove(0));
         assertEquals(0, list.size());
-        list.add(0, 9); // structure still works after becoming empty
+        list.add(0, 9);
         list.add(10);
         assertEquals(9, list.get(0));
         assertEquals(10, list.get(1));
@@ -55,9 +50,9 @@ abstract class IntListContractTest {
         assertEquals(18, list.size());
         assertEquals(1, list.get(0));
         assertEquals(18, list.get(17));
-        list.add(list.size(), 99); // insert at the end
+        list.add(list.size(), 99);
         assertEquals(99, list.get(list.size() - 1));
-        list.add(0, -1); // insert at the head
+        list.add(0, -1);
         assertEquals(-1, list.get(0));
     }
 
@@ -72,7 +67,7 @@ abstract class IntListContractTest {
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(-1));
         assertThrows(IndexOutOfBoundsException.class, () -> list.remove(5));
         assertThrows(IndexOutOfBoundsException.class, () -> list.add(6, 1));
-        assertEquals(5, list.size()); // failed calls must not change the structure
+        assertEquals(5, list.size());
     }
 
     @Test
@@ -145,8 +140,6 @@ abstract class IntListContractTest {
         }
     }
 
-    // ---- counters must be honest ----
-
     @Test
     void countersStartAtZeroAndReset() {
         IntList list = create();
@@ -166,11 +159,11 @@ abstract class IntListContractTest {
             list.add(i);
         }
         list.counters().reset();
-        list.contains(9); // found at position 9 -> 10 elements inspected
+        list.contains(9);
         assertEquals(10, list.counters().comparisons());
         assertEquals(10, list.counters().steps());
         list.counters().reset();
-        list.contains(-5); // missing -> all 50 inspected
+        list.contains(-5);
         assertEquals(50, list.counters().comparisons());
     }
 }

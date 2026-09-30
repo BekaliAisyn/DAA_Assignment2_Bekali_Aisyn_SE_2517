@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# Fallback when Maven is not available: plain javac/java (JDK 17+).
-# Unit tests need the JUnit console launcher jar; pass its path as $1 to run them too, e.g.
-#   ./scripts/run_without_maven.sh ~/junit-platform-console-standalone-1.10.2.jar
-# The JOL jar (bonus A) is optional: pass it as $2.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT=target/classes
