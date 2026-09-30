@@ -1,0 +1,69 @@
+# VM mode: 64 bits
+# Compressed references (oops): 0-bit shift
+# Compressed class pointers: 0-bit shift and 0x7FE3CF000000 base
+# Object alignment: 8 bytes
+#                       ref, bool, byte, char, shrt,  int,  flt,  lng,  dbl
+# Field sizes:            4,    1,    1,    2,    2,    4,    4,    8,    8
+# Array element sizes:    4,    1,    1,    2,    2,    4,    4,    8,    8
+# Array base offsets:    16,   16,   16,   16,   16,   16,   16,   16,   16
+
+daa.structures.DynamicArray object internals:
+OFF  SZ                      TYPE DESCRIPTION               VALUE
+  0   8                           (object header: mark)     N/A
+  8   4                           (object header: class)    N/A
+ 12   4                       int DynamicArray.size         N/A
+ 16   4                     int[] DynamicArray.data         N/A
+ 20   4   daa.structures.Counters DynamicArray.counters     N/A
+Instance size: 24 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total
+
+daa.structures.MyLinkedList object internals:
+OFF  SZ                               TYPE DESCRIPTION               VALUE
+  0   8                                    (object header: mark)     N/A
+  8   4                                    (object header: class)    N/A
+ 12   4                                int MyLinkedList.size         N/A
+ 16   4   daa.structures.MyLinkedList.Node MyLinkedList.head         N/A
+ 20   4   daa.structures.MyLinkedList.Node MyLinkedList.tail         N/A
+ 24   4            daa.structures.Counters MyLinkedList.counters     N/A
+ 28   4                                    (object alignment gap)    
+Instance size: 32 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
+
+daa.structures.MyLinkedList$Node object internals:
+OFF  SZ                               TYPE DESCRIPTION               VALUE
+  0   8                                    (object header: mark)     N/A
+  8   4                                    (object header: class)    N/A
+ 12   4                                int Node.value                N/A
+ 16   4   daa.structures.MyLinkedList.Node Node.next                 N/A
+ 20   4                                    (object alignment gap)    
+Instance size: 24 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
+
+daa.structures.MinHeap object internals:
+OFF  SZ                      TYPE DESCRIPTION               VALUE
+  0   8                           (object header: mark)     N/A
+  8   4                           (object header: class)    N/A
+ 12   4                       int MinHeap.size              N/A
+ 16   4                     int[] MinHeap.a                 N/A
+ 20   4   daa.structures.Counters MinHeap.counters          N/A
+Instance size: 24 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total
+
+[I object internals:
+OFF  SZ   TYPE DESCRIPTION               VALUE
+  0   8        (object header: mark)     0x0000000000000001 (non-biasable; age: 0)
+  8   4        (object header: class)    0x00002708
+ 12   4        (array length)            10
+ 16  40    int [I.<elements>             N/A
+Instance size: 56 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total
+
+GraphLayout summary, MyLinkedList n=1000:
+daa.structures.MyLinkedList@4c70fda8d footprint:
+     COUNT       AVG       SUM   DESCRIPTION
+         1        40        40   daa.structures.Counters
+         1        32        32   daa.structures.MyLinkedList
+      1000        24     24000   daa.structures.MyLinkedList$Node
+      1002               24072   (total)
+
+

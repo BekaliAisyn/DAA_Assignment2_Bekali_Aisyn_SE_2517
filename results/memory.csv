@@ -1,0 +1,13 @@
+structure,n,total_bytes,bytes_per_element,payload_bytes,overhead_factor
+DynamicArray,100,592,5.92,400,1.48
+MyLinkedList,100,2472,24.72,400,6.18
+MinHeap,100,592,5.92,400,1.48
+DynamicArray,1000,4176,4.18,4000,1.04
+MyLinkedList,1000,24072,24.07,4000,6.02
+MinHeap,1000,4176,4.18,4000,1.04
+DynamicArray,10000,65616,6.56,40000,1.64
+MyLinkedList,10000,240072,24.01,40000,6.00
+MinHeap,10000,65616,6.56,40000,1.64
+DynamicArray,100000,524368,5.24,400000,1.31
+MyLinkedList,100000,2400072,24.00,400000,6.00
+MinHeap,100000,524368,5.24,400000,1.31
